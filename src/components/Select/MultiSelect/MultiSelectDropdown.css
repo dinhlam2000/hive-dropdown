@@ -1,0 +1,10 @@
+.selected-options-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.selected-option-value .remove-option {
+  cursor: pointer;
+  font-size: 15px;
+  color: gray;
+}
