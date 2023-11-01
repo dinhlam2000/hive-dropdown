@@ -35,9 +35,11 @@ function SingleSelectDropdown({
   );
 
   const handleSelectedOption = useCallback(
-    (option: Option) =>
+    (option: Option) => {
       // Handling selected option for single select is more simple since we will just change the selectedOption state value
-      setSelectedOption(option),
+      setSelectedOption(option);
+      setSearchTerm("");
+    },
     [setSelectedOption]
   );
 
@@ -48,9 +50,9 @@ function SingleSelectDropdown({
 
   useEffect(() => {
     const handleClickAway = (event: MouseEvent) => {
-      setSearchTerm("");
       if (isDropdownOpen && selectOptionsRef.current) {
         if (!selectOptionsRef.current.contains(event.target as Node)) {
+          setSearchTerm("");
           setIsDropdownOpen(false);
         }
       }
@@ -79,19 +81,22 @@ function SingleSelectDropdown({
       ref={selectOptionsRef}
     >
       <div className="select-control" onClick={toggleDropdownOpen}>
-        {selectedOption ? (
-          <div className="selected-option-value">{selectedOption.label}</div>
-        ) : (
-          !searchTerm.length && <div className="select-title">{title}</div>
+        {!searchTerm.length && !selectedOption && (
+          <div className="select-title">{title}</div>
         )}
-        {isSearchable && (
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={handleSearchInputChange}
-            className="select-search"
-          />
-        )}
+        <div className="selected-options-container">
+          {selectedOption ? (
+            <div className="selected-option-value">{selectedOption.label}</div>
+          ) : null}
+          {isSearchable && (
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={handleSearchInputChange}
+              className="select-search"
+            />
+          )}
+        </div>
         <div className="select-symbol">
           {isClearable && selectedOption ? (
             <span
@@ -106,19 +111,25 @@ function SingleSelectDropdown({
       </div>
       {isDropdownOpen && (
         <div className="select-options">
-          {options.map((option) => {
-            return (
-              <div
-                key={option.value}
-                className={`select-option ${
-                  selectedOption?.value === option.value ? "selected" : ""
-                }`}
-                onClick={() => handleSelectedOption(option)}
-              >
-                {option.label}
-              </div>
-            );
-          })}
+          {filteredOptions.length > 0 ? (
+            filteredOptions.map((option) => {
+              return (
+                <div
+                  key={option.value}
+                  className={`select-option ${
+                    selectedOption?.value === option.value ? "selected" : ""
+                  }`}
+                  onClick={() => handleSelectedOption(option)}
+                >
+                  {option.label}
+                </div>
+              );
+            })
+          ) : (
+            <label className="select-option select-option-no-option">
+              No options
+            </label>
+          )}
         </div>
       )}
     </div>

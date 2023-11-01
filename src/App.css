@@ -2,9 +2,14 @@
   align-items: flex-start;
   display: flex;
   flex-direction: column;
-  margin: 1rem;
+  margin: 0.5rem 0 0.5rem 1rem;
 }
 
 .select-control-wrapper {
   margin-top: 1rem;
+}
+
+.title-break {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
 }

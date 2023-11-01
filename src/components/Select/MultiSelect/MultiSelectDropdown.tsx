@@ -1,7 +1,6 @@
 import { useRef, useEffect, useCallback, useState } from "react";
 import { SelectOptionsProps } from "../Select";
 // CSS
-import "./MultiSelectDropdown.css";
 import "../Select.css";
 
 // Types
@@ -64,10 +63,11 @@ function MultiSelectDropdown({
           );
         }
         setSearchTerm("");
+        console.log("optiopn", option, newOptions);
         return newOptions;
       });
     },
-    [setSelectedOptions, removeSelectedOption]
+    [setSelectedOptions, removeSelectedOption, setSearchTerm]
   );
 
   const toggleDropdownOpen = useCallback(
@@ -99,9 +99,9 @@ function MultiSelectDropdown({
 
   useEffect(() => {
     const handleClickAway = (event: MouseEvent) => {
-      setSearchTerm("");
       if (isDropdownOpen && selectOptionsRef.current) {
         if (!selectOptionsRef.current.contains(event.target as Node)) {
+          setSearchTerm("");
           setIsDropdownOpen(false);
         }
       }
@@ -136,7 +136,7 @@ function MultiSelectDropdown({
             return (
               <div
                 key={"selected-option-" + option.value}
-                className="selected-option-value"
+                className={`selected-option-value selected-option-value-multiple`}
               >
                 {option.label}
                 <span

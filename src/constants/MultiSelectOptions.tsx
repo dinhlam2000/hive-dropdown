@@ -10,10 +10,11 @@ export const options: Option[] = [
   { value: "Donald Trump", label: "Donald Trump" },
   { value: "Joe Biden", label: "Joe Biden" },
   { value: "Brad Pitt", label: "Brad Pitt" },
-  { value: "Angelina Joli", label: "Angelina Jolie" },
-  { value: "Leonardo DiCaprio", label: "Leonardo DiCaprio" },
+  { value: "Angelina Ha", label: "Angelina Ha" },
+  { value: "Leonardo Tran", label: "Leonardo Tran" },
   { value: "Jennifer Aniston", label: "Jennifer Aniston" },
-  { value: "George Clooney", label: "George Clooney" },
+  { value: "George Floyd", label: "George Floyd" },
+  { value: "George Washington", label: "George Washington" },
 ];
 
 export const celebritiesOption: Option[] = Array.from(
