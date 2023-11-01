@@ -1,5 +1,37 @@
 # https://dev.dhbh2f1ucmwxo.amplifyapp.com
 
+# Description
+
+This shareable select dropdown support both **single** and **multiple** selection with
+
+## Clearable
+
+Remove all selected item by clicking on X icon
+
+## Searchable
+
+Search for the option list (case insensity)
+
+## Disabled
+
+Unable to select/unselect anything
+
+## Clickaway
+
+Click away will close the option list
+
+## Multiple
+
+Selecting different options and displaying them. Also has the option to select all
+
+### Checkbox
+
+Selecting with checkbox
+
+### Removeable item
+
+Clicking on the x on selected item will remove the item from the selected list
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
