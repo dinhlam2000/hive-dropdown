@@ -19,7 +19,12 @@ function MultiSelectDropdown({
 }: MultiSelectOptionProps) {
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState<Boolean>(false);
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const selectOptionsRef = useRef<HTMLDivElement>(null);
+
+  const filteredOptions = options.filter((option) =>
+    option.label.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const removeSelectedOption = useCallback(
     (option: Option) => {
@@ -30,6 +35,14 @@ function MultiSelectDropdown({
       );
     },
     [setSelectedOptions]
+  );
+
+  const handleSearchInputChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchTerm(event.target.value);
+      setIsDropdownOpen(true);
+    },
+    [setSearchTerm, setIsDropdownOpen]
   );
 
   const handleSelectedOption = useCallback(
@@ -50,6 +63,7 @@ function MultiSelectDropdown({
             (selectedOption) => selectedOption.value !== option.value
           );
         }
+        setSearchTerm("");
         return newOptions;
       });
     },
@@ -85,8 +99,8 @@ function MultiSelectDropdown({
 
   useEffect(() => {
     const handleClickAway = (event: MouseEvent) => {
+      setSearchTerm("");
       if (isDropdownOpen && selectOptionsRef.current) {
-        console.log("handleClickAway click away");
         if (!selectOptionsRef.current.contains(event.target as Node)) {
           setIsDropdownOpen(false);
         }
@@ -98,7 +112,7 @@ function MultiSelectDropdown({
     return () => {
       document.removeEventListener("mousedown", handleClickAway);
     };
-  }, [setIsDropdownOpen, isDropdownOpen]);
+  }, [setIsDropdownOpen, isDropdownOpen, setSearchTerm]);
 
   return (
     <div
@@ -107,9 +121,14 @@ function MultiSelectDropdown({
       }`}
       ref={selectOptionsRef}
     >
-      <div className="select-control" onClick={toggleDropdownOpen}>
-        {selectedOptions.length === 0 ? (
-          <div className="title">{title}</div>
+      <div
+        className={`select-control ${
+          isDropdownOpen ? "select-control-focus" : ""
+        }`}
+        onClick={toggleDropdownOpen}
+      >
+        {selectedOptions.length === 0 && searchTerm.length === 0 ? (
+          <div className="select-title">{title}</div>
         ) : null}
 
         <div className="selected-options-container">
@@ -129,6 +148,14 @@ function MultiSelectDropdown({
               </div>
             );
           })}
+          {isSearchable && (
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={handleSearchInputChange}
+              className="select-search"
+            />
+          )}
         </div>
         <div className="select-symbol">
           {isClearable && selectedOptions.length > 0 ? (
@@ -144,37 +171,46 @@ function MultiSelectDropdown({
       </div>
       {isDropdownOpen && (
         <div className="select-options">
-          <label className={`select-option`}>
-            <input
-              type="checkbox"
-              value={"select-all"}
-              checked={selectedOptions.length === options.length}
-              onChange={() => handleSelectAll()}
-            />
-            Select All
-          </label>
-          {options.map((option) => {
-            return (
-              <label
-                key={option.value}
-                className={`select-option ${
-                  selectedOptions.find(
-                    (selectedOption) => selectedOption.value === option.value
-                  )
-                    ? "selected"
-                    : ""
-                }`}
-              >
-                <input
-                  type="checkbox"
-                  value={option.value}
-                  checked={selectedOptions.includes(option)}
-                  onChange={() => handleSelectedOption(option)}
-                />
-                {option.label}
-              </label>
-            );
-          })}
+          {searchTerm === "" && (
+            <label className={`select-option`}>
+              <input
+                type="checkbox"
+                value={"select-all"}
+                checked={selectedOptions.length === options.length}
+                onChange={() => handleSelectAll()}
+              />
+              Select All
+            </label>
+          )}
+
+          {filteredOptions.length > 0 ? (
+            filteredOptions.map((option) => {
+              return (
+                <label
+                  key={option.value}
+                  className={`select-option ${
+                    selectedOptions.find(
+                      (selectedOption) => selectedOption.value === option.value
+                    )
+                      ? "selected"
+                      : ""
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    value={option.value}
+                    checked={selectedOptions.includes(option)}
+                    onChange={() => handleSelectedOption(option)}
+                  />
+                  {option.label}
+                </label>
+              );
+            })
+          ) : (
+            <label className="select-option select-option-no-option">
+              No options
+            </label>
+          )}
         </div>
       )}
     </div>

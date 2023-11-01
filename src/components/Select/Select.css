@@ -37,6 +37,12 @@
   align-items: flex-start;
 }
 
+.select-option-no-option {
+  opacity: 0.3;
+  align-self: center;
+  pointer-events: none;
+}
+
 .select-option:hover {
   background: rgb(164, 236, 164);
 }
@@ -58,8 +64,30 @@
   cursor: pointer;
 }
 
+.select-control-focus {
+  border: 1px solid green;
+}
+
 .select-title {
   opacity: 0.3;
+  position: absolute;
+}
+
+.select-search {
+  color: inherit;
+  background: 0px center;
+  opacity: 1;
+  width: 100%;
+  grid-area: 1 / 2 / auto / auto;
+  font: inherit;
+  min-width: 2px;
+  max-width: 100px;
+  border: 0px;
+  margin: 0px;
+  outline: 0px;
+  padding: 0px;
+  z-index: 20;
+  position: relative;
 }
 
 .selected-option-value {

@@ -1,6 +1,7 @@
 .selected-options-container {
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
 }
 
 .selected-option-value .remove-option {

@@ -19,7 +19,20 @@ function SingleSelectDropdown({
 }: SingleSelectOptionProps) {
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState<Boolean>(false);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  const filteredOptions = options.filter((option) =>
+    option.label.toLowerCase().includes(searchTerm.toLowerCase())
+  );
   const selectOptionsRef = useRef<HTMLDivElement>(null);
+
+  const handleSearchInputChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchTerm(event.target.value);
+      setIsDropdownOpen(true);
+    },
+    [setSearchTerm, setIsDropdownOpen]
+  );
 
   const handleSelectedOption = useCallback(
     (option: Option) =>
@@ -35,6 +48,7 @@ function SingleSelectDropdown({
 
   useEffect(() => {
     const handleClickAway = (event: MouseEvent) => {
+      setSearchTerm("");
       if (isDropdownOpen && selectOptionsRef.current) {
         if (!selectOptionsRef.current.contains(event.target as Node)) {
           setIsDropdownOpen(false);
@@ -47,7 +61,7 @@ function SingleSelectDropdown({
     return () => {
       document.removeEventListener("mousedown", handleClickAway);
     };
-  }, [isDropdownOpen]);
+  }, [setIsDropdownOpen, isDropdownOpen, setSearchTerm]);
 
   const handleClearAll = useCallback(
     (event: MouseEvent) => {
@@ -68,7 +82,15 @@ function SingleSelectDropdown({
         {selectedOption ? (
           <div className="selected-option-value">{selectedOption.label}</div>
         ) : (
-          <div className="select-title">{title}</div>
+          !searchTerm.length && <div className="select-title">{title}</div>
+        )}
+        {isSearchable && (
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={handleSearchInputChange}
+            className="select-search"
+          />
         )}
         <div className="select-symbol">
           {isClearable && selectedOption ? (
