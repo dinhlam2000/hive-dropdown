@@ -101,7 +101,12 @@ function MultiSelectDropdown({
   }, [setIsDropdownOpen, isDropdownOpen]);
 
   return (
-    <div className="select-container" ref={selectOptionsRef}>
+    <div
+      className={`select-container ${
+        isDisabled ? "select-container-disabled " : ""
+      }`}
+      ref={selectOptionsRef}
+    >
       <div className="select-control" onClick={toggleDropdownOpen}>
         {selectedOptions.length === 0 ? (
           <div className="title">{title}</div>

@@ -58,7 +58,12 @@ function SingleSelectDropdown({
   );
 
   return (
-    <div className="select-container" ref={selectOptionsRef}>
+    <div
+      className={`select-container ${
+        isDisabled ? "select-container-disabled " : ""
+      }`}
+      ref={selectOptionsRef}
+    >
       <div className="select-control" onClick={toggleDropdownOpen}>
         {selectedOption ? (
           <div className="selected-option-value">{selectedOption.label}</div>

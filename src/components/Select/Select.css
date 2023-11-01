@@ -5,6 +5,12 @@
   position: relative;
   width: 550px;
 }
+
+.select-container-disabled {
+  pointer-events: none;
+  background-color: lightgray;
+  opacity: 0.5;
+}
 .select-options {
   z-index: 10;
   position: absolute;
