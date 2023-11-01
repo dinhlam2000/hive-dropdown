@@ -1,0 +1,23 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-hivedropdown-dev-194735-authRole",
+      "UnauthRoleArn": "arn:aws:iam::144192756145:role/amplify-hivedropdown-dev-194735-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::144192756145:role/amplify-hivedropdown-dev-194735-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-hivedropdown-dev-194735-deployment",
+      "UnauthRoleName": "amplify-hivedropdown-dev-194735-unauthRole",
+      "StackName": "amplify-hivedropdown-dev-194735",
+      "StackId": "arn:aws:cloudformation:us-west-2:144192756145:stack/amplify-hivedropdown-dev-194735/03f9fde0-7861-11ee-9d7a-069380302a37",
+      "AmplifyAppId": "dhbh2f1ucmwxo"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "dhbh2f1ucmwxo",
+          "type": "manual"
+        }
+      }
+    }
+  }
+}
