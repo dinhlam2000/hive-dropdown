@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useEffect, useCallback, useState } from "react";
 
 // CSS
 import "./MultiSelectDropdown.css";
@@ -14,42 +14,78 @@ interface MultiSelectOptionProps {
 
 function MultiSelectDropdown({ options, title }: MultiSelectOptionProps) {
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
-  const [isOptionsOpen, setIsOptionsOpen] = useState<Boolean>(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState<Boolean>(false);
+  const selectOptionsRef = useRef<HTMLDivElement>(null);
 
-  const handleSelectedOption = (option: Option) => {
-    // If option has not been selected, then we add it into our selectedOptions list
-    if (
-      !selectedOptions.find(
-        (selectedOption) => selectedOption.value === option.value
-      )
-    ) {
-      setSelectedOptions([...selectedOptions, option]);
-    }
-    // If option has already been selected, we want to deselect it by removing from the selectedOptions list
-    else {
-      removeSelectedOption(option);
-    }
-  };
+  const removeSelectedOption = useCallback(
+    (option: Option) => {
+      setSelectedOptions((prevOptions) =>
+        prevOptions.filter(
+          (selectedOption) => selectedOption.value !== option.value
+        )
+      );
+    },
+    [setSelectedOptions]
+  );
 
-  const toggleDropdownOpen = () => {
-    setIsOptionsOpen(!isOptionsOpen);
-  };
+  const handleSelectedOption = useCallback(
+    (option: Option) => {
+      setSelectedOptions((prevOptions) => {
+        let newOptions: Option[] = [];
+        // If option has not been selected, then we add it into our selectedOptions list
+        if (
+          !prevOptions.find(
+            (selectedOption) => selectedOption.value === option.value
+          )
+        ) {
+          newOptions = [...prevOptions, option];
+        }
+        // If option has already been selected, we want to deselect it by removing from the selectedOptions list
+        else {
+          newOptions = prevOptions.filter(
+            (selectedOption) => selectedOption.value !== option.value
+          );
+        }
+        return newOptions;
+      });
+    },
+    [setSelectedOptions, removeSelectedOption]
+  );
 
-  const handleSelectAll = () => {
-    if (selectedOptions.length === options.length) {
-      setSelectedOptions([]);
-    } else {
-      setSelectedOptions(options);
-    }
-  };
+  const toggleDropdownOpen = useCallback(
+    () => setIsDropdownOpen((prev) => !prev),
+    [setIsDropdownOpen]
+  );
 
-  const removeSelectedOption = (option: Option) => {
-    setSelectedOptions(
-      selectedOptions.filter(
-        (selectedOption) => selectedOption.value !== option.value
-      )
-    );
-  };
+  const handleSelectAll = useCallback(
+    () =>
+      setSelectedOptions((prevOptions) => {
+        let newOptions: Option[] = [];
+        if (prevOptions.length === options.length) {
+          newOptions = [];
+        } else {
+          newOptions = options;
+        }
+        return newOptions;
+      }),
+    [setSelectedOptions]
+  );
+
+  useEffect(() => {
+    const handleClickAway = (event: MouseEvent) => {
+      if (isDropdownOpen && selectOptionsRef.current) {
+        if (!selectOptionsRef.current.contains(event.target as Node)) {
+          setIsDropdownOpen(false);
+        }
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickAway);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickAway);
+    };
+  }, [isDropdownOpen]);
 
   return (
     <div className="select-container">
@@ -78,8 +114,8 @@ function MultiSelectDropdown({ options, title }: MultiSelectOptionProps) {
         </div>
         <div className="select-arrow-down"></div>
       </div>
-      {isOptionsOpen && (
-        <div className="select-options">
+      {isDropdownOpen && (
+        <div className="select-options" ref={selectOptionsRef}>
           <label className={`select-option`}>
             <input
               type="checkbox"

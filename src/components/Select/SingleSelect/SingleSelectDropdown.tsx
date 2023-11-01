@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useEffect, useRef, useCallback, useState } from "react";
 
 // CSS
 import "../Select.css";
@@ -14,16 +14,35 @@ interface SingleSelectOptionProps {
 function SingleSelectDropdown({ options, title }: SingleSelectOptionProps) {
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState<Boolean>(false);
+  const selectOptionsRef = useRef<HTMLDivElement>(null);
 
-  const handleSelectedOption = useCallback((option: Option) => {
-    // Handling selected option for single select is more simple since we will just change the selectedOption state value
-    setSelectedOption(option);
-  }, []);
+  const handleSelectedOption = useCallback(
+    (option: Option) =>
+      // Handling selected option for single select is more simple since we will just change the selectedOption state value
+      setSelectedOption(option),
+    [setSelectedOption]
+  );
 
-  const toggleDropdownOpen = useCallback(() => {
-    console.log("toggle");
-    setIsDropdownOpen((prev) => !prev);
-  }, []);
+  const toggleDropdownOpen = useCallback(
+    () => setIsDropdownOpen((prev) => !prev),
+    [setIsDropdownOpen]
+  );
+
+  useEffect(() => {
+    const handleClickAway = (event: MouseEvent) => {
+      if (isDropdownOpen && selectOptionsRef.current) {
+        if (!selectOptionsRef.current.contains(event.target as Node)) {
+          setIsDropdownOpen(false);
+        }
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickAway);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickAway);
+    };
+  }, [isDropdownOpen]);
 
   return (
     <div className="select-container">
@@ -36,7 +55,7 @@ function SingleSelectDropdown({ options, title }: SingleSelectOptionProps) {
         <div className="select-arrow-down"></div>
       </div>
       {isDropdownOpen && (
-        <div className="select-options">
+        <div className="select-options" ref={selectOptionsRef}>
           {options.map((option) => {
             return (
               <div
