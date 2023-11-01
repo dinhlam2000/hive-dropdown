@@ -20,6 +20,10 @@ Unable to select/unselect anything
 
 Click away will close the option list
 
+## Focus
+
+When hovering over option, it will highlight for UI appearance
+
 ## Multiple
 
 Selecting different options and displaying them. Also has the option to select all
