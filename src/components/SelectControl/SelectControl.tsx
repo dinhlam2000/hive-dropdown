@@ -9,7 +9,8 @@ const Checkbox = ({ children, ...props }: JSX.IntrinsicElements["input"]) => (
   </label>
 );
 
-interface SelectControlProps extends SelectOptionsProps {}
+interface SelectControlProps
+  extends Pick<SelectOptionsProps, "options" | "title" | "isMulti"> {}
 
 function SelectControl({
   options,
@@ -22,7 +23,14 @@ function SelectControl({
 
   return (
     <div>
-      <Select options={options} title={title} isMulti={isMulti} />
+      <Select
+        options={options}
+        title={title}
+        isMulti={isMulti}
+        isClearable={isClearable}
+        isDisabled={isDisabled}
+        isSearchable={isSearchable}
+      />
       <div className="select-control-wrapper">
         <Checkbox
           checked={isClearable}

@@ -81,3 +81,18 @@
 .select-arrow-down:hover {
   opacity: 1;
 }
+
+.select-clear {
+  opacity: 0.3;
+}
+
+.select-clear:hover {
+  opacity: 1;
+}
+
+.select-symbol {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}

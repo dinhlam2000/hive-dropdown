@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useCallback, useState } from "react";
+import { SelectOptionsProps } from "../Select";
 
 // CSS
 import "../Select.css";
@@ -6,12 +7,16 @@ import "../Select.css";
 // Types
 import { Option } from "../Select";
 
-interface SingleSelectOptionProps {
-  options: Option[];
-  title: string;
-}
+interface SingleSelectOptionProps
+  extends Required<Omit<SelectOptionsProps, "isMulti">> {}
 
-function SingleSelectDropdown({ options, title }: SingleSelectOptionProps) {
+function SingleSelectDropdown({
+  options,
+  title,
+  isSearchable,
+  isClearable,
+  isDisabled,
+}: SingleSelectOptionProps) {
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState<Boolean>(false);
   const selectOptionsRef = useRef<HTMLDivElement>(null);
@@ -44,6 +49,14 @@ function SingleSelectDropdown({ options, title }: SingleSelectOptionProps) {
     };
   }, [isDropdownOpen]);
 
+  const handleClearAll = useCallback(
+    (event: MouseEvent) => {
+      event.stopPropagation();
+      setSelectedOption(null);
+    },
+    [setSelectedOption]
+  );
+
   return (
     <div className="select-container" ref={selectOptionsRef}>
       <div className="select-control" onClick={toggleDropdownOpen}>
@@ -52,7 +65,17 @@ function SingleSelectDropdown({ options, title }: SingleSelectOptionProps) {
         ) : (
           <div className="select-title">{title}</div>
         )}
-        <div className="select-arrow-down"></div>
+        <div className="select-symbol">
+          {isClearable && selectedOption ? (
+            <span
+              className="select-clear"
+              onClick={(e) => handleClearAll(e as unknown as MouseEvent)}
+            >
+              ×
+            </span>
+          ) : null}
+          <span className="select-arrow-down"></span>
+        </div>
       </div>
       {isDropdownOpen && (
         <div className="select-options">

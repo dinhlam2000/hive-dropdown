@@ -11,15 +11,37 @@ export interface SelectOptionsProps {
   options: Option[];
   title: string;
   isMulti?: boolean;
+  isSearchable?: boolean;
+  isClearable?: boolean;
+  isDisabled?: boolean;
 }
 
-function Select({ options, title, isMulti = false }: SelectOptionsProps) {
+function Select({
+  options,
+  title,
+  isMulti = false,
+  isSearchable = false,
+  isClearable = false,
+  isDisabled = false,
+}: SelectOptionsProps) {
   return (
     <div className="select-wrapper">
       {isMulti ? (
-        <MultiSelectDropdown options={options} title={title} />
+        <MultiSelectDropdown
+          options={options}
+          title={title}
+          isClearable={isClearable}
+          isSearchable={isSearchable}
+          isDisabled={isDisabled}
+        />
       ) : (
-        <SingleSelectDropdown options={options} title={title} />
+        <SingleSelectDropdown
+          options={options}
+          title={title}
+          isClearable={isClearable}
+          isSearchable={isSearchable}
+          isDisabled={isDisabled}
+        />
       )}
     </div>
   );

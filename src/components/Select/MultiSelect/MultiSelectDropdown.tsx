@@ -1,5 +1,5 @@
 import { useRef, useEffect, useCallback, useState } from "react";
-
+import { SelectOptionsProps } from "../Select";
 // CSS
 import "./MultiSelectDropdown.css";
 import "../Select.css";
@@ -7,12 +7,16 @@ import "../Select.css";
 // Types
 import { Option } from "../Select";
 
-interface MultiSelectOptionProps {
-  options: Option[];
-  title: string;
-}
+interface MultiSelectOptionProps
+  extends Required<Omit<SelectOptionsProps, "isMulti">> {}
 
-function MultiSelectDropdown({ options, title }: MultiSelectOptionProps) {
+function MultiSelectDropdown({
+  options,
+  title,
+  isSearchable,
+  isClearable,
+  isDisabled,
+}: MultiSelectOptionProps) {
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState<Boolean>(false);
   const selectOptionsRef = useRef<HTMLDivElement>(null);
@@ -71,6 +75,14 @@ function MultiSelectDropdown({ options, title }: MultiSelectOptionProps) {
     [setSelectedOptions]
   );
 
+  const handleClearAll = useCallback(
+    (event: MouseEvent) => {
+      event.stopPropagation();
+      setSelectedOptions([]);
+    },
+    [setSelectedOptions]
+  );
+
   useEffect(() => {
     const handleClickAway = (event: MouseEvent) => {
       if (isDropdownOpen && selectOptionsRef.current) {
@@ -113,7 +125,17 @@ function MultiSelectDropdown({ options, title }: MultiSelectOptionProps) {
             );
           })}
         </div>
-        <div className="select-arrow-down"></div>
+        <div className="select-symbol">
+          {isClearable && selectedOptions.length > 0 ? (
+            <span
+              className="select-clear"
+              onClick={(e) => handleClearAll(e as unknown as MouseEvent)}
+            >
+              ×
+            </span>
+          ) : null}
+          <span className="select-arrow-down"></span>
+        </div>
       </div>
       {isDropdownOpen && (
         <div className="select-options">
