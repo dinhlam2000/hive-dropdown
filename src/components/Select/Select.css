@@ -62,6 +62,7 @@
   border-radius: 5px;
   border: 1px solid #ccc;
   cursor: pointer;
+  min-height: 30px;
 }
 
 .select-control-focus {
