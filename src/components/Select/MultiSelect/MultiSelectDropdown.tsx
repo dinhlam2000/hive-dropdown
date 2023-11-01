@@ -141,7 +141,10 @@ function MultiSelectDropdown({
                 {option.label}
                 <span
                   className="remove-option"
-                  onClick={() => removeSelectedOption(option)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeSelectedOption(option);
+                  }}
                 >
                   ×
                 </span>
