@@ -2,39 +2,39 @@
 
 # Description
 
-This shareable select dropdown support both **single** and **multiple** selection with
+This shareable select dropdown support both **single** and **multiple** selection. The project uses Typescript for code clarity and deployed into AWS using AWS Amplify. Refer to the link above.
 
 ## Clearable
 
-Remove all selected item by clicking on X icon
+The component allows you to remove all selected items by clicking on the "X" icon.
 
 ## Searchable
 
-Search for the option list (case insensity)
+You can search for items in the option list, and the search is case-insensitive.
 
 ## Disabled
 
-Unable to select/unselect anything
+The dropdown can be disabled, preventing any selection or deselection of items.
 
 ## Clickaway
 
-Click away will close the option list
+Clicking away from the dropdown will close the option list for improved user experience.
 
 ## Focus
 
-When hovering over option, it will highlight for UI appearance
+When hovering over options, they will be highlighted to enhance the UI appearance.
 
 ## Multiple
 
-Selecting different options and displaying them. Also has the option to select all
+This component enables the selection of different options and displays them. It also provides the option to select all available items.
 
 ### Checkbox
 
-Selecting with checkbox
+Items can be selected using checkboxes for convenient multiple selection.
 
 ### Removeable item
 
-Clicking on the x on selected item will remove the item from the selected list
+To remove selected items from the list, you can simply click on the "X" icon next to each selected item.
 
 # Getting Started with Create React App
 
