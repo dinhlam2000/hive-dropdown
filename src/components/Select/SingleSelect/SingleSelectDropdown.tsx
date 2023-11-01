@@ -45,7 +45,7 @@ function SingleSelectDropdown({ options, title }: SingleSelectOptionProps) {
   }, [isDropdownOpen]);
 
   return (
-    <div className="select-container">
+    <div className="select-container" ref={selectOptionsRef}>
       <div className="select-control" onClick={toggleDropdownOpen}>
         {selectedOption ? (
           <div className="selected-option-value">{selectedOption.label}</div>
@@ -55,7 +55,7 @@ function SingleSelectDropdown({ options, title }: SingleSelectOptionProps) {
         <div className="select-arrow-down"></div>
       </div>
       {isDropdownOpen && (
-        <div className="select-options" ref={selectOptionsRef}>
+        <div className="select-options">
           {options.map((option) => {
             return (
               <div

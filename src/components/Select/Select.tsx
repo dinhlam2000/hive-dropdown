@@ -7,12 +7,13 @@ export interface Option {
   label: string;
 }
 
-interface DropdownOptionProps {
+export interface SelectOptionsProps {
   options: Option[];
   title: string;
   isMulti?: boolean;
 }
-function Select({ options, title, isMulti = false }: DropdownOptionProps) {
+
+function Select({ options, title, isMulti = false }: SelectOptionsProps) {
   return (
     <div className="select-wrapper">
       {isMulti ? (

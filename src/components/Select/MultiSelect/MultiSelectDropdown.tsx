@@ -74,6 +74,7 @@ function MultiSelectDropdown({ options, title }: MultiSelectOptionProps) {
   useEffect(() => {
     const handleClickAway = (event: MouseEvent) => {
       if (isDropdownOpen && selectOptionsRef.current) {
+        console.log("handleClickAway click away");
         if (!selectOptionsRef.current.contains(event.target as Node)) {
           setIsDropdownOpen(false);
         }
@@ -85,10 +86,10 @@ function MultiSelectDropdown({ options, title }: MultiSelectOptionProps) {
     return () => {
       document.removeEventListener("mousedown", handleClickAway);
     };
-  }, [isDropdownOpen]);
+  }, [setIsDropdownOpen, isDropdownOpen]);
 
   return (
-    <div className="select-container">
+    <div className="select-container" ref={selectOptionsRef}>
       <div className="select-control" onClick={toggleDropdownOpen}>
         {selectedOptions.length === 0 ? (
           <div className="title">{title}</div>
@@ -115,7 +116,7 @@ function MultiSelectDropdown({ options, title }: MultiSelectOptionProps) {
         <div className="select-arrow-down"></div>
       </div>
       {isDropdownOpen && (
-        <div className="select-options" ref={selectOptionsRef}>
+        <div className="select-options">
           <label className={`select-option`}>
             <input
               type="checkbox"
