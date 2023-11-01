@@ -13,7 +13,7 @@ function App() {
       <h3 className="title-break">Single</h3>
       <SelectControl
         options={MultiSelectOption}
-        title="Select your celebrities"
+        title="Select your celebrity"
       />
 
       <h3 className="title-break">Multiple</h3>
