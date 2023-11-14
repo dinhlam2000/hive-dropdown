@@ -1,5 +1,9 @@
 # https://dev.dhbh2f1ucmwxo.amplifyapp.com
 
+# Demo Video
+
+https://www.youtube.com/watch?v=Ad_Fql36VoM
+
 # Description
 
 This shareable select dropdown support both **single** and **multiple** selection. The project uses Typescript for code clarity and deployed into AWS using AWS Amplify. Refer to the link above.
@@ -86,6 +90,8 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 ## To Deploy to AWS
 
 - First follow this [link](https://docs.amplify.aws/cli/start/install/) to setup amplify cli
+
+then follow amplify host
 
 ```
 amplify build
